@@ -34,7 +34,7 @@
 
 
 import dbus
-
+import os
 
 class SystemdManager(object):
 
@@ -144,6 +144,11 @@ class SystemdManager(object):
             return state
         except KeyError:
             return False
+    
+    def is_enabled(self, unit_name):
+        # enable path
+        enabled_path = "/etc/systemd/system/multi-user.target.wants/"
+        return os.path.isfile(os.path.join(enabled_path, unit_name))
 
     def is_active(self, unit_name):
         unit_state = self.get_active_state(unit_name)
